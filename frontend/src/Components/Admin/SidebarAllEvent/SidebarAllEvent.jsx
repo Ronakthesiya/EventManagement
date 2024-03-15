@@ -8,7 +8,7 @@ export const SidebarAllEvent = () => {
 
 
     useEffect(() => {
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)

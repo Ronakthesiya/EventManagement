@@ -37,14 +37,14 @@ const StudentListByEvent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3004/${param.id}`);
+        const response = await fetch(`https://studentapironak.onrender.com/${param.id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch event data');
         }
         const eventData = await response.json();
         setEvent(eventData);
 
-        const studentDataPromises = eventData.memberId.map((e) => axios.get(`http://localhost:3001/${e}`));
+        const studentDataPromises = eventData.memberId.map((e) => axios.get(`https://studentapironak.onrender.com/${e}`));
         const studentDataResponses = await Promise.all(studentDataPromises);
         const studentData = studentDataResponses.map((res) => res.data);
         setStudent(studentData);

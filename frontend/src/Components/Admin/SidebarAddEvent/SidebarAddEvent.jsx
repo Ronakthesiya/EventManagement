@@ -25,7 +25,7 @@
 //     let id = localStorage.getItem('EventId');
 
 //     function deleteEvent(){
-//         axios.delete(`http://localhost:3004/${id}`)
+//         axios.delete(`https://studentapironak.onrender.com/${id}`)
 //         .then(res =>{
 //             console.log('event deleted')
 //         })
@@ -40,7 +40,7 @@
 //             const fetchData = async () => {
 //                 let a =localStorage.getItem('EventId')
 //                 try {
-//                     const response = await fetch(`http://localhost:3004/${a}`);
+//                     const response = await fetch(`https://studentapironak.onrender.com/${a}`);
 //                     if (!response.ok) {
 //                         throw new Error('Failed to fetch event data');
 //                     }
@@ -76,7 +76,7 @@
 //             }
 //             localStorage.setItem('index',1);
 //             eventData.noOfRemainingSeat = eventData.noOfSeat - eventData.noOfFildSeat;
-//             axios.post(`http://localhost:3004/`, eventData)
+//             axios.post(`https://studentapironak.onrender.com/`, eventData)
 //             .then(response => {
 //                 if(f==0){
 //                     Swal.fire({template:'succeful',title:'New Event Created'})
@@ -324,7 +324,7 @@ export const SidebarAddEvent = () => {
             }
 
             localStorage.setItem('index', 1);
-            axios.post(`http://localhost:3004/`, eventData)
+            axios.post(`https://studentapironak.onrender.com/`, eventData)
                 .then(response => {
                     Swal.fire({ template: 'succeful', title: 'New Event Created' })
                         .then(() => {

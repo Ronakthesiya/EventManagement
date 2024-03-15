@@ -52,7 +52,7 @@ const SidebarEventById = () => {
             if (result.isConfirmed) {
                 Swal.fire('Saved!', '', 'success')
 
-                axios.delete(`http://localhost:3004/${param.id}`)
+                axios.delete(`https://studentapironak.onrender.com/${param.id}`)
                     .then(res => {
                         console.log('event deleted')
                         setlodingButton(false);
@@ -72,7 +72,7 @@ const SidebarEventById = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:3004/${param.id}`);
+                const response = await fetch(`https://studentapironak.onrender.com/${param.id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch event data');
                 }

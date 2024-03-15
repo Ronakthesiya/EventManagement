@@ -29,7 +29,7 @@ const Signup = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:3001`);
+                const response = await fetch(`https://studentapironak.onrender.com`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch event data');
                 }
@@ -44,7 +44,7 @@ const Signup = () => {
 
         const fetchData2 = async () => {
             try {
-                const response = await fetch(`http://localhost:3003`);
+                const response = await fetch(`https://eventadminapironak.onrender.com/`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch event data');
                 }
@@ -94,7 +94,7 @@ const Signup = () => {
             setlodingButton(false)
             return;
         }
-        axios.post(`http://localhost:3001/signup`, formData)
+        axios.post(`https://studentapironak.onrender.com/signup`, formData)
             .then(response => {
                 localStorage.setItem("studentName", formData.studentName)
                 localStorage.setItem("studentEmail", formData.studentEmail)

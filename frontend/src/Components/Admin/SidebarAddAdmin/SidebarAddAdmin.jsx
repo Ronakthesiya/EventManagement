@@ -13,7 +13,7 @@ export const SidebarAddAdmin = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:3003/")
+        fetch("https://eventadminapironak.onrender.com//")
             .then((res) => res.json())
             .then((res) => setAdmins(res));
     }, []);
@@ -56,7 +56,7 @@ export const SidebarAddAdmin = () => {
             return;
         }
 
-        axios.post(`http://localhost:3003/`, formData)
+        axios.post(`https://eventadminapironak.onrender.com//`, formData)
             .then(response => {
             })
             .catch(error => {

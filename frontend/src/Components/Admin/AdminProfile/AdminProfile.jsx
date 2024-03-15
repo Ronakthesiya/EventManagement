@@ -41,7 +41,7 @@ const AdminProfile = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3003/${localStorage.getItem('adminId')}`);
+        const response = await fetch(`https://eventadminapironak.onrender.com//${localStorage.getItem('adminId')}`);
         if (!response.ok) {
           throw new Error('Failed to fetch admin data');
         }

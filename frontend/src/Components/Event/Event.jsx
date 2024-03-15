@@ -12,7 +12,7 @@ export function Event() {
 
     useEffect(() => {
 
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)
@@ -105,7 +105,7 @@ export function LoginEvent() {
     
 
     useEffect(() => {
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)
@@ -200,7 +200,7 @@ export function MyEvent() {
 
 
     useEffect(() => {
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)
@@ -285,7 +285,7 @@ export function LoginAllEvent1() {
 
 
     useEffect(() => {
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)
@@ -369,7 +369,7 @@ export function Event2() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:3004/")
+        fetch("https://studentapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)
