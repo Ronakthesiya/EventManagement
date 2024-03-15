@@ -8,10 +8,7 @@ const app = express();
 const PORT = 3001;
 const DB_URI = 'mongodb+srv://Ronak:GMAMR@cluster0.jxxzuw1.mongodb.net/first?retryWrites=true&w=majority';
 
-mongoose.connect(DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(DB_URI)
 .then(() => {
     console.log('MongoDB connected successfully');
 })
@@ -28,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.get('/', async (req, res) => {
     try {
-        const students = await Student.find();
+        const students = await Student.find({});
         console.log("GET all Student");
         res.json(students);
     } catch (err) {

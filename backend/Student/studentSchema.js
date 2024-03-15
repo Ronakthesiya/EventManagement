@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    _id:String,
     studentName: {
         type: String
     },
@@ -53,4 +52,5 @@ const schema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Student', schema);
+Student = mongoose.model('Student', schema);
+module.exports = Student;
