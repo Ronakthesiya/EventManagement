@@ -26,6 +26,7 @@ const EventById = () => {
                 }
                 const eventData = await response.json();
                 setLoading(false)
+                
                 setEvent(eventData);
             } catch (error) {
                 console.error('Error fetching event data:', error);

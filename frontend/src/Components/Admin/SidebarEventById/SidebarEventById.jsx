@@ -52,7 +52,7 @@ const SidebarEventById = () => {
             if (result.isConfirmed) {
                 Swal.fire('Saved!', '', 'success')
 
-                axios.delete(`https://studentapironak.onrender.com/${param.id}`)
+                axios.delete(`https://eventapironak.onrender.com/${param.id}`)
                     .then(res => {
                         console.log('event deleted')
                         setlodingButton(false);

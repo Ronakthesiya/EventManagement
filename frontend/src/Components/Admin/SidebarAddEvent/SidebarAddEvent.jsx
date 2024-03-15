@@ -324,7 +324,7 @@ export const SidebarAddEvent = () => {
             }
 
             localStorage.setItem('index', 1);
-            axios.post(`https://studentapironak.onrender.com/`, eventData)
+            axios.post(`https://eventapironak.onrender.com/`, eventData)
                 .then(response => {
                     Swal.fire({ template: 'succeful', title: 'New Event Created' })
                         .then(() => {

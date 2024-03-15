@@ -122,7 +122,7 @@ export const SidebarHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://studentapironak.onrender.com`);
+        const response = await fetch(`https://eventapironak.onrender.com/`);
         if (!response.ok) {
           throw new Error('Failed to fetch event data');
         }
