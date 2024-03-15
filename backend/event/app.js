@@ -111,7 +111,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Event = require('./EventSchema');
+const Event = require('./eventSchema');
 
 const app = express();
 const PORT = 3004;
