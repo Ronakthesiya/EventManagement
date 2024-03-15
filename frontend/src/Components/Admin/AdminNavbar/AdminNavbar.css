@@ -1,0 +1,27 @@
+.adminname{
+    /* position: fixed; */
+    left: 50%;
+    right: 50%;
+    margin: auto;
+    font-size: 30px;
+}
+/* .loginbtn{
+    margin-bottom: 8px;
+    text-decoration: none;
+} */
+.loginbtn>Link{
+    text-decoration: none;
+
+}
+.mainlogin{
+    text-decoration: none;
+    background-color: rgb(74, 74, 255);
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+   
+
+}
+.adminname{
+    margin-left: 10px;
+}

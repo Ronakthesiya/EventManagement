@@ -1,0 +1,6 @@
+.sidebar-content {
+    min-height: 85vh;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* Add vertical scrolling if needed */
+}

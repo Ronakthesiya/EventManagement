@@ -1,0 +1,33 @@
+/* SidebarStudents.css */
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 13px;
+}
+
+.student-table th,
+.student-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.student-table th {
+    background-color:rgb(72, 72, 254);
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.student-table tbody tr:nth-child(even) {
+    background-color: #f41515;
+}
+
+.student-table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.student-table tbody tr td:last-child {
+    text-align: center;
+}

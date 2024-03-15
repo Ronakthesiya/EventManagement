@@ -1,0 +1,9 @@
+.sidebar-content {
+    min-height: 85vh;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.b1{
+    float: right;
+}
