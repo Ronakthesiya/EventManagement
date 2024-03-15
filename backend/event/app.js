@@ -137,7 +137,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', async (req, res) => {
     try {
         const Events = await Event.find({});
-        console.log("GET all Events");
+        console.log("GET all Events ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         res.json(Events);
     } catch (err) {
         console.error('Error fetching Events:', err);
