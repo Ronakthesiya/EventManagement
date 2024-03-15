@@ -20,13 +20,12 @@ const EventById = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://studentapironak.onrender.com/${param.id}`);
+                const response = await fetch(`https://eventapironak.onrender.com/${param.id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch event data');
                 }
                 const eventData = await response.json();
                 setLoading(false)
-                
                 setEvent(eventData);
             } catch (error) {
                 console.error('Error fetching event data:', error);

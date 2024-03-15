@@ -21,7 +21,7 @@ const LoginEventById = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://studentapironak.onrender.com/${param.id}`);
+                const response = await fetch(`https://eventapironak.onrender.com/${param.id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch event data');
                 }
@@ -114,7 +114,7 @@ const LoginEventById = () => {
         event.noOfRemainingSeat = ((event.noOfSeat) - event.noOfFildSeat - 1);
         event.noOfFildSeat = event.noOfFildSeat + 1;
 
-        axios.put(`https://studentapironak.onrender.com/${event._id}`, event)
+        axios.put(`https://eventapironak.onrender.com/${event._id}`, event)
             .then(response => {
                 console.log("succeful rgister")
             })

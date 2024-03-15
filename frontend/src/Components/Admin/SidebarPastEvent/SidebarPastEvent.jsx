@@ -7,7 +7,7 @@ export const SidebarPastEvent = () => {
     const [allEvent, setallEvent] = useState([]);
 
     useEffect(() => {
-        fetch("https://studentapironak.onrender.com/")
+        fetch("https://eventapironak.onrender.com/")
             .then((res) => res.json())
             .then((res) => {
                 setallEvent(res)

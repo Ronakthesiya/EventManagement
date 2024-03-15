@@ -39,20 +39,23 @@ const StudentListByEvent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://eventapironak.onrender.com//${param.id}`)
-        .then(
-          
-        )
+        const response = await fetch(`https://eventapironak.onrender.com/${param.id}`)
         if (!response.ok) {
           throw new Error('Failed to fetch event data');
         }
         const eventData = await response.json();
         setEvent(eventData);
+        console.log(eventData);
 
-        const studentDataPromises = eventData.memberId.map((e) => axios.get(`https://studentapironak.onrender.com/${e}`).then(setLoading(false)));
+        const studentDataPromises = eventData.memberId.map((e) => axios.get(`https://studentapironak.onrender.com/${e}`));
+        // const studentDataPromises = eventData.memberId.map((e) => console.log(e));
+        
+
         const studentDataResponses = await Promise.all(studentDataPromises);
-        const studentData = studentDataResponses.map((res) => res.data);
+        const studentData = studentDataResponses.map((res)=>res.data);
         setStudent(studentData);
+
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching event data:', error);
       }
@@ -115,51 +118,51 @@ const StudentListByEvent = () => {
         </div>
 
         {!loading ? (
-                    <div className="p-3" style={{ width: '100%' }}>
-                    <div className='eventName'><h2>{event.eventName}</h2></div>
-          
-                    {(student.length > 0) ?
-                      <>
-                        <div>
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>College</th>
-                                <th>Enrollment</th>
-                                <th>Phone Number</th>
-                                <th>Count of event</th>
-                                <th>Gender</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {student.map((student, index) => (
-                                <tr key={index} className='bg-light'>
-                                  <td>{student.studentName}</td>
-                                  <td>{student.studentEmail}</td>
-                                  <td>{student.studentCollage}</td>
-                                  <td>{student.studentEnrollment}</td>
-                                  <td>{student.phoneNumber}</td>
-                                  <td>{student.ragiteredEventCount}</td>
-                                  <td>{student.gender}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className='buttonDownload'>
-                          <button className='btn btn-info' onClick={downloadcsv}>Download</button>
-                        </div>
-                      </>
-                      : <div className='eventName'><h4>" No Student are hear ! "</h4></div>
-                    }
-                  </div>
-                ) : (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', width: '165vh' }}>
-                        <CircularProgress style={{ height: '60px', width: '60px', strokeWidth: '50px', color: 'black' }} />
-                    </div>
-                )}
+          <div className="p-3" style={{ width: '100%' }}>
+            <div className='eventName'><h2>{event.eventName}</h2></div>
+
+            {(student.length > 0) ?
+              <>
+                <div>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>College</th>
+                        <th>Enrollment</th>
+                        <th>Phone Number</th>
+                        <th>Count of event</th>
+                        <th>Gender</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {student.map((student, index) => (
+                        <tr key={index} className='bg-light'>
+                          <td>{student.studentName}</td>
+                          <td>{student.studentEmail}</td>
+                          <td>{student.studentCollage}</td>
+                          <td>{student.studentEnrollment}</td>
+                          <td>{student.phoneNumber}</td>
+                          <td>{student.ragiteredEventCount}</td>
+                          <td>{student.gender}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className='buttonDownload'>
+                  <button className='btn btn-info' onClick={downloadcsv}>Download</button>
+                </div>
+              </>
+              : <div className='eventName'><h4>" No Student are hear ! "</h4></div>
+            }
+          </div>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', width: '165vh' }}>
+            <CircularProgress style={{ height: '60px', width: '60px', strokeWidth: '50px', color: 'black' }} />
+          </div>
+        )}
       </div>
     </>
   )
