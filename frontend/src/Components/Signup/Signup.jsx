@@ -26,6 +26,7 @@ const Signup = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -35,6 +36,9 @@ const Signup = () => {
                 }
                 const res = await response.json();
                 setStudents(res);
+
+                await fetchData2();
+
                 setloading(false);
             } catch (error) {
                 console.error('Error fetching event data:', error);
@@ -54,7 +58,7 @@ const Signup = () => {
                 console.error('Error fetching event data:', error);
             }
         };
-        fetchData2();
+        
     }, [])
 
 

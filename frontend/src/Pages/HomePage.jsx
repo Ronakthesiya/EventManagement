@@ -11,6 +11,7 @@ const StyledCircularProgress = styled(CircularProgress)({
     transform: 'translate(-50%, -50%)',
 });
 
+const Winner = lazy(()=>import('../Components/Admin/Winner/Winner.jsx'));
 const EventById = lazy(() => import('../Components/EventById/EventById.jsx'));
 const LoginEventById = lazy(() => import('../Components/EventById/LoginEventById.jsx'));
 const About = lazy(() => import('../Components/About/About.jsx'));
@@ -56,6 +57,7 @@ export const HomePage = () => {
                     <Route path='/sidebarevent/edit/:id' element={<EditEvent />} />
                     <Route path='/adminhome/studentlistbyevent/:id' element={<StudentListByEvent />} />
                     <Route path='/adminhome/profile' element={<AdminProfile />} />
+                    <Route path='/sidebarevent/winner/:id' element={<Winner/>} />
                 </Routes>
         </BrowserRouter>
             </Suspense>

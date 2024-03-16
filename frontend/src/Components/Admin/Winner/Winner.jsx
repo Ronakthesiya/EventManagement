@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { AdminNavbar } from '../AdminNavbar/AdminNavbar';
+import './Winner.css'
 import { SidebarHome } from '../SidebarHome/SidebarHome';
 import { SidebarEvent } from '../SidebarEvent/SidebarEvent';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './SidebarEventById.css'
 import Swal from 'sweetalert2'
 import HomeImg from '../../../assets/HomeImg.png'
 import pasteventImg from '../../../assets/pastevent.png'
@@ -15,9 +15,9 @@ import AddEvent from '../../../assets/AddEvent.png'
 import AddAdmin from '../../../assets/AddAdmin.png'
 import { CircularProgress } from '@mui/material';
 
-const SidebarEventById = () => {
-    const [lodingButton, setlodingButton] = useState(false);
+const Winner = () => {
     const [loading, setLoading] = useState(true);
+    const [loadingButton, setLoadingButton] = useState(false);
     const [activeItem, setActiveItem] = useState(2);
     const [event, setEvent] = useState({});
     const [student, setStudent] = useState([]);
@@ -31,44 +31,33 @@ const SidebarEventById = () => {
         localStorage.setItem('index', n);
     };
 
-    function editEvent() {
-        localStorage.setItem('EventId', param.id)
-        nav(`../sidebarevent/edit/${param.id}`)
-    }
+    const [selectedStudents, setSelectedStudents] = useState([]);
 
-    function deleteEvent() {
-        setlodingButton(true);
-        Swal.fire({
-            title: 'Do you want to delete this event ?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Yes',
-            denyButtonText: 'No',
-            customClass: {
-                actions: 'my-actions',
-                cancelButton: 'order-1 right-gap',
-                confirmButton: 'order-2',
-                denyButton: 'order-3',
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Saved!', '', 'success')
-
-                axios.delete(`https://eventapironak.onrender.com/${param.id}`)
-                    .then(res => {
-                        console.log('event deleted')
-                        setlodingButton(false);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-
-                nav("../adminhome")
-            } else if (result.isDenied) {
-                Swal.fire('Event is not deleted', '', 'info')
+    const handleCheckboxChange = (studentId) => {
+        if (selectedStudents.includes(studentId)) {
+            setSelectedStudents(selectedStudents.filter(id => id !== studentId));
+        } else {
+            if (selectedStudents.length < 3) {
+                setSelectedStudents([...selectedStudents, studentId]);
             }
-        })
-        setlodingButton(false);
+        }
+    };
+
+    const addWinner = async () => {
+        setLoadingButton(true);
+        event.winnerId = selectedStudents;
+        console.log(event);
+
+        try {
+            const response = await axios.put(`https://eventapironak.onrender.com/${param.id}`, event);
+            console.log(response.data);
+
+            nav(`../sidebarevent/${param.id}`)
+            setLoadingButton(false);
+        } catch (error) {
+            console.error('Error in put event data:', error);
+        }
+
     }
 
     useEffect(() => {
@@ -80,38 +69,37 @@ const SidebarEventById = () => {
                 }
                 const eventData = await response.json();
 
-                setEvent(eventData);
+                await setEvent(eventData);
 
                 if (eventData.winnerId.length > 0) {
                     setHashWinner(true);
-                
-                    const studentDataPromises = eventData.winnerId.map((e) => axios.get(`https://studentapironak.onrender.com/${e}`));
-                    const studentDataResponses = await Promise.all(studentDataPromises);
-                    const studentData = studentDataResponses.map((res) => res.data);
-                    setStudent(studentData);
-
+                    setSelectedStudents(eventData.winnerId);
                 }
 
-                setLoading(false);
+                if (eventData.memberId.length > 0) {
+                    await fetchData3(eventData.memberId);
+                }
 
+                setLoading(false)
             } catch (error) {
                 console.error('Error fetching event data:', error);
             }
+
         };
 
         fetchData();
 
-        // const fetchData2 = async () => {
-        //     try {
+        const fetchData3 = async (a) => {
+            try {
+                const studentDataPromises = a.map((e) => axios.get(`https://studentapironak.onrender.com/${e}`));
+                const studentDataResponses = await Promise.all(studentDataPromises);
+                const studentData = studentDataResponses.map((res) => res.data);
+                setStudent(studentData);
+            } catch (error) {
+                console.error('Error fetching Student by id for event:', error);
+            }
 
-
-        //     } catch (error) {
-        //         console.error('Error fetching Student by id data:', error);
-        //     }
-        // };
-
-        // fetchData2();        
-
+        };
     }, [param.id]);
 
     const ronak = () => {
@@ -119,7 +107,6 @@ const SidebarEventById = () => {
             <> </>
         )
     }
-    let rank = 1;
 
     return (
         <>
@@ -174,63 +161,14 @@ const SidebarEventById = () => {
                     </div>
                 </div>
 
-
-
                 {!loading ? (
-                    <div className="p-3" style={{ width: '100%' }}>
-                        <img src={event.eventImg} alt={event.eventImg + ''} />
-                        <table className="table table-striped table-hover">
-                            <tbody>
-                                <tr>
-                                    <th>Name :</th>
-                                    <td>{event.eventName}</td>
-                                </tr>
-                                <tr>
-                                    <th>Description :</th>
-                                    <td>{event.eventDesc}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date :</th>
-                                    <td>{new Date(event.eventDate).toDateString()}</td>
-                                </tr>
-                                <tr>
-                                    <th>Seat :</th>
-                                    <td>{event.noOfSeat}</td>
-                                </tr>
-                                <tr>
-                                    <th>No of Remaining Seat :</th>
-                                    <td>{event.noOfSeat - event.noOfFildSeat}</td>
-                                </tr>
-                                <tr>
-                                    <th>Filled Seat :</th>
-                                    <td>{event.noOfFildSeat}</td>
-                                </tr>
-                                <tr>
-                                    <th>Event Rule :</th>
-                                    <td>{event.eventRule}</td>
-                                </tr>
-                                <tr>
-                                    <th>Length of Team :</th>
-                                    <td>{event.lengthOfTeam}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div className="p-3 text-center mt-5" style={{ width: '100%' }}>
+                        <div className='eventName'><h2>{event.eventName}</h2></div>
 
-                        {!lodingButton ? (
-                            <button className='btn btn-danger me-5 b1' onClick={deleteEvent}> Delete </button>
-                        ) : (
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-                                <CircularProgress style={{ height: '30px', width: '30px', strokeWidth: '50px', color: 'black' }} />
-                            </div>
-                        )}
-
-                        <button className='btn btn-info ms-5' onClick={editEvent}> Edit </button>
-
-                        {(new Date() > new Date(event.eventDate)) ?
-                            (hashWinner) ?
-                                <div className="p-3 text-center mt-5" style={{ width: '100%' }}>
-                                    <div className='text-center'> <h1>Winner List</h1> </div>
-                                    <table class="table table-striped mt-4">
+                        {(student.length > 0) ?
+                            <>
+                                <div>
+                                    <table className="table table-striped mt-5">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -241,31 +179,47 @@ const SidebarEventById = () => {
                                                 <th>Phone Number</th>
                                                 <th>Count of event</th>
                                                 <th>Gender</th>
+                                                <th>Select</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {student.map((student, index) => (
-                                                <tr key={index} className='bg-light'>
-                                                    <td>{rank++}</td>
-                                                    <td>{student.studentName}</td>
-                                                    <td>{student.studentEmail}</td>
-                                                    <td>{student.studentCollage}</td>
-                                                    <td>{student.studentEnrollment}</td>
-                                                    <td>{student.phoneNumber}</td>
-                                                    <td>{student.ragiteredEventCount}</td>
-                                                    <td>{student.gender}</td>
+                                            {student.map((currentStudent, index) => (
+                                                <tr key={index} className={selectedStudents.includes(currentStudent._id) ? 'bg-light' : ''}>
+                                                    <td>{selectedStudents.indexOf(currentStudent._id) !== -1 ? selectedStudents.indexOf(currentStudent._id) + 1 : ''}</td>
+                                                    <td>{currentStudent.studentName}</td>
+                                                    <td>{currentStudent.studentEmail}</td>
+                                                    <td>{currentStudent.studentCollege}</td>
+                                                    <td>{currentStudent.studentEnrollment}</td>
+                                                    <td>{currentStudent.phoneNumber}</td>
+                                                    <td>{currentStudent.registeredEventCount}</td>
+                                                    <td>{currentStudent.gender}</td>
+                                                    <td>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedStudents.includes(currentStudent._id)}
+                                                            onChange={() => handleCheckboxChange(currentStudent._id)}
+                                                            disabled={selectedStudents.length === 3 && !selectedStudents.includes(currentStudent._id)}
+                                                        />
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
-                                    <div className='mt-5'><button className='btn btn-info' onClick={() => nav(`../sidebarevent/winner/${param.id}`)}> Edit Winner </button></div>
+                                    <div className='text-center mt-5'>
+                                        {
+                                            (loadingButton) ?
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
+                                                    <CircularProgress style={{ height: '30px', width: '30px', strokeWidth: '50px', color: 'black' }} />
+                                                </div>
+                                                : <button className='btn btn-info' onClick={addWinner}>
+                                                    {(hashWinner) ? "Edit" : "Add"}
+                                                </button>
+                                        }
+
+                                    </div>
                                 </div>
-                                :
-                                <div className='text-center'>
-                                    <button className='btn btn-info' onClick={() => nav(`../sidebarevent/winner/${param.id}`)}>Add Winner</button>
-                                </div>
-                            :
-                            <></>
+                            </>
+                            : <div className='eventName'><h4>" No Student are hear ! "</h4></div>
                         }
                     </div>
                 ) : (
@@ -281,4 +235,4 @@ const SidebarEventById = () => {
 }
 
 
-export default SidebarEventById;
+export default Winner;
