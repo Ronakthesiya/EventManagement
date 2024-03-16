@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Winner = require('./studentSchema');
+const Winner = require('./WinnerSchema');
 
 const app = express();
 const PORT = 3005;
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.get('/', async (req, res) => {
+app.get('/getallwinner', async (req, res) => {
     try {
         const winner = await Winner.find({});
         console.log("GET all Winner");
@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/:id', async (req, res) => {
+app.get('/getbyidwinner/:id', async (req, res) => {
     try {
         const winner = await Winner.findById(req.params.id);
         if (!winner) {
@@ -48,7 +48,7 @@ app.get('/:id', async (req, res) => {
     }
 });
 
-app.delete('/:id', async (req, res) => {
+app.delete('/deletewinner/:id', async (req, res) => {
     try {
         const deletedwinner = await Winner.findByIdAndDelete(req.params.id);
         if (!deletedwinner) {
@@ -62,7 +62,7 @@ app.delete('/:id', async (req, res) => {
     }
 });
 
-app.put('/:id', async (req, res) => {
+app.put('/putwinner/:id', async (req, res) => {
     try {
         const updatedwinner = await Winner.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedwinner) {
@@ -77,7 +77,7 @@ app.put('/:id', async (req, res) => {
 });
 
 
-app.post('/signup', async (req, res) => {
+app.post('/postwinner', async (req, res) => {
     console.log(req.body);
     try {
         const newWinner = new Winner({
