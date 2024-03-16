@@ -43,9 +43,12 @@ const schema = mongoose.Schema({
         {
             type : String
         }
+    ],
+    winnerId:[
+        {
+            type : String
+        }
     ]
-
-    
 })
 
 const Event = mongoose.model('Event',schema);
