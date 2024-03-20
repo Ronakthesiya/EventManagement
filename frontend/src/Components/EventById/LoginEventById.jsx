@@ -15,6 +15,7 @@ const LoginEventById = () => {
     const [event, setEvent] = useState({});
     const [students, setstudents] = useState({});
     const nav = useNavigate();
+    const [ragister, setragister] = useState(false);
 
 
 
@@ -27,12 +28,25 @@ const LoginEventById = () => {
                 }
                 const eventData = await response.json();
                 setEvent(eventData);
+
+                if(eventData.memberId){
+                    if (eventData.memberId.includes(localStorage.getItem('studentId'))) {
+                        
+                        
+                            console.log("cancel")
+                        
+                        setragister(true);
+                        
+                    }
+                }
             } catch (error) {
                 console.error('Error fetching event data:', error);
             }
         };
 
         fetchData();
+
+        
 
         const fetchData2 = async () => {
             try {
@@ -137,6 +151,30 @@ const LoginEventById = () => {
         }
     }
 
+    const cancleRagister = () => {
+        let stid=localStorage.getItem('studentId').toString();
+        let arr = event.memberId.filter((e)=> e!=stid);
+        console.log(arr);
+        console.log(event.memberId);
+
+        event.memberId = arr;
+        setEvent({...event})
+
+        console.log(event);
+
+
+        axios.put(`https://eventapironak.onrender.com/${event._id}`, event)
+            .then(response => {
+                console.log("ragister cancled")
+                console.log(response);
+            })
+            .catch(error => {
+                alert('Error signing up event');
+            });
+
+        nav('../loginHome')
+    }
+
     const openForm = () => {
         if (localStorage.getItem('studentName') === null) {
             nav('/signup');
@@ -201,10 +239,19 @@ const LoginEventById = () => {
                                 </tr>
                             </tbody>
                         </table>
-                        {(new Date(event.eventDate) >= new Date()) ?
-                            <button className="btn btn-info button" onClick={openForm}>
-                                Register
-                            </button> :
+                        {(new Date(event.eventDate) > new Date()) ?
+                                (ragister)?
+                                    (((new Date(event.eventDate)-new Date())/36e5 < 24)?
+                                        <h5>You can not cancle Ragistration because event start in (less then) 24hr</h5>
+                                    :
+                                    <button className="btn btn-danger button" onClick={cancleRagister}>
+                                        Cancle Register
+                                    </button>)
+                                :
+                                <button className="btn btn-info button" onClick={openForm}>
+                                    Register
+                                </button> 
+                            :
                             <h2 className='mt-5 ms-5 text'>Past Event</h2>
                         }   
                     </div>
